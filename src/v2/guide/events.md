@@ -103,6 +103,39 @@ var example2 = new Vue({
 </script>
 {% endraw %}
 
+当事件中没有传参时，可以在方法调用时直接调用event事件。如果事件中有传参，则必须通过主动在事件中传入$event参数才能在方法中使用event事件。
+
+``` html
+<div id="example-2">
+  <!-- `greet` 是在下面定义的方法名 -->
+  <button v-on:click="greet($event, 'helloworld')">Greet</button>
+</div>
+```
+
+``` js
+var example2 = new Vue({
+  el: '#example-2',
+  data: {
+    name: 'Vue.js'
+  },
+  // 在 `methods` 对象中定义方法
+  methods: {
+    greet: function (event, val) {
+      // `this` 在方法里指向当前 Vue 实例
+      alert(this.name + ': ' + val + '!')
+      // `event` 是原生 DOM 事件
+      if (event) {
+        alert(event.target.tagName)
+      }
+    }
+  }
+})
+
+// 也可以用 JavaScript 直接调用方法
+example2.greet() // => 'Hello Vue.js!'
+```
+
+
 ## 内联处理器中的方法
 
 除了直接绑定到一个方法，也可以在内联 JavaScript 语句中调用方法：
